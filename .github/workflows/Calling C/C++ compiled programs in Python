@@ -1,0 +1,14 @@
+import subprocess
+
+def estimate_pi(num_points):
+    result = subprocess.run(['./monte_carlo_pi'], capture_output=True, text=True)
+    pi_estimate = float(result.stdout.strip().split(': ')[1])
+    return pi_estimate
+
+def main():
+    num_points = 100000000
+    pi_estimate = estimate_pi(num_points)
+    print(f"Estimated value of Pi: {pi_estimate}")
+
+if __name__ == "__main__":
+    main()
