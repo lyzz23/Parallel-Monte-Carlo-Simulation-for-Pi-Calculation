@@ -1,0 +1,29 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <omp.h>
+
+// 函数：并行估算 Pi 值，设置线程数
+double estimate_pi_parallel(int num_points, int num_threads) {
+    int inside_circle = 0;
+
+    #pragma omp parallel for reduction(+:inside_circle) num_threads(num_threads)
+    for (int i = 0; i < num_points; ++i) {
+        double x = static_cast<double>(rand()) / RAND_MAX;
+        double y = static_cast<double>(rand()) / RAND_MAX;
+        if (x * x + y * y <= 1) {
+            inside_circle++;
+        }
+    }
+    return 4.0 * inside_circle / num_points;
+}
+
+int main() {
+    srand(static_cast<unsigned>(time(0)));  // 设置随机数种子
+    int num_points = 100000000;             // 设置点的数量
+    int num_threads = 4;                    // 设置线程数
+
+    double pi_estimate = estimate_pi_parallel(num_points, num_threads);
+    std::cout << "Estimated value of Pi: " << pi_estimate << std::endl;
+    return 0;
+}
