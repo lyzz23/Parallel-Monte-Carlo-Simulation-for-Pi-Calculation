@@ -1,0 +1,25 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+// 函数：估算 Pi 值
+double estimate_pi(int num_points) {
+    int inside_circle = 0;
+    for (int i = 0; i < num_points; ++i) {
+        double x = static_cast<double>(rand()) / RAND_MAX;
+        double y = static_cast<double>(rand()) / RAND_MAX;
+        if (x * x + y * y <= 1) {
+            inside_circle++;
+        }
+    }
+    return 4.0 * inside_circle / num_points;
+}
+
+int main() {
+    srand(static_cast<unsigned>(time(0)));  // 设置随机数种子
+    int num_points = 100000000;             // 设置点的数量
+
+    double pi_estimate = estimate_pi(num_points);
+    std::cout << "Estimated value of Pi: " << pi_estimate << std::endl;
+    return 0;
+}
